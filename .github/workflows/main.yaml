@@ -1,0 +1,43 @@
+name: convert-md-to-pptx
+
+on:
+  push:
+  #     branches:
+  #       - slides
+  #       - pptx
+    tags:
+      - v*
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/pptx'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: convert
+        run: |
+         docker run --rm -v $PWD:/home/marp/app/ -e LANG=$LANG -e MARP_USER="$(id -u):$(id -g)" marpteam/marp-cli --pptx -I ./ --output pptx
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: pptx
+          path: pptx
+  book:
+    runs-on: ubuntu-latest
+      #if:
+      #  contains('
+      #    refs/heads/book
+      #    refs/heads/foliant
+      #  ', github.ref)
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: book
+        run: |
+         docker run --rm -v `pwd`:/usr/src/app -w /usr/src/app foliant/foliant:pandoc make docx --config glossary.yml
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: book
+          path: |
+            *.docx

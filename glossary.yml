@@ -1,0 +1,7 @@
+---
+title: Project Documentation
+slug: glossary
+src_dir: doc
+chapters:
+  - Project Documentation:
+    - DOCUMENTATION.md
