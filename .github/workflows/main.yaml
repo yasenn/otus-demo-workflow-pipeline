@@ -10,7 +10,6 @@ on:
 jobs:
   convert:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/pptx'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,11 +23,6 @@ jobs:
           path: pptx
   book:
     runs-on: ubuntu-latest
-      #if:
-      #  contains('
-      #    refs/heads/book
-      #    refs/heads/foliant
-      #  ', github.ref)
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
